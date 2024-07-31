@@ -1,0 +1,15 @@
+# Config.yaml
+name: "Glyphrz-server"
+port: 8888
+logAddress: "./log/"
+
+mysql:
+  name: "root"
+  host: ""
+  port: 0
+  password: ""
+  dbName: ""
+
+redis:
+  host: ""
+  port: 0
