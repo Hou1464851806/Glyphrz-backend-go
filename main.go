@@ -4,16 +4,18 @@ import (
 	"Glyphrz-go/global"
 	"Glyphrz-go/initialize"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func main() {
+	// 初始化配置
 	initialize.InitConfig()
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "test",
-		})
-	})
-	r.Run(fmt.Sprintf(":%d", global.Settings.Port))
+	// 初始化路由
+	r := initialize.Router()
+	// 初始化日志
+	initialize.InitLogger()
+	// 启动服务
+	if err := r.Run(fmt.Sprintf(":%d", global.Settings.Port)); err != nil {
+		zap.L().Info("Server setup function", zap.String("error", "Start error!"))
+	}
 }
