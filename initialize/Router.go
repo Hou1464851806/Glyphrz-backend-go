@@ -10,7 +10,8 @@ func Router() *gin.Engine {
 	r := gin.Default()
 	// 路由组
 	ApiGroup := r.Group("/v1/")
-	router.UserRouter(ApiGroup)
+	router.InitBaseRouter(ApiGroup)
+	router.InitUserRouter(ApiGroup)
 	r.Use(middleware.Logger(), middleware.Recovery(true))
 	return r
 }

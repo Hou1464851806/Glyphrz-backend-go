@@ -6,6 +6,7 @@ type ServerConfig struct {
 	LogAddress string      `mapstructure:"logAddress"`
 	MysqlInfo  MysqlConfig `mapstructure:"mysql"`
 	RedisInfo  RedisConfig `mapstructure:"redis"`
+	JWTKey     JWTConfig   `mapstructure:"jwt"`
 }
 
 type MysqlConfig struct {
@@ -19,4 +20,8 @@ type MysqlConfig struct {
 type RedisConfig struct {
 	Host string `mapstructure:"host"`
 	Port int    `mapstructure:"port"`
+}
+
+type JWTConfig struct {
+	SigningKey string `mapstructure:"key"`
 }

@@ -1,15 +1,17 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"Glyphrz-go/controller"
+	"Glyphrz-go/middleware"
+	"github.com/gin-gonic/gin"
+)
 
-func UserRouter(Router *gin.RouterGroup) {
+func InitUserRouter(Router *gin.RouterGroup) {
 	UserRouter := Router.Group("user")
 	{
-		UserRouter.GET("list", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "user-list",
-			})
-		})
+		UserRouter.POST("login", controller.Login)
+		UserRouter.GET("list", middleware.JWTAuth(), controller.GetUserList)
+		UserRouter.POST("register", controller.Register)
 		UserRouter.GET("panic", func(c *gin.Context) {
 			panic("test recovery middleware")
 		})
