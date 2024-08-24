@@ -7,7 +7,7 @@ import (
 
 type User struct {
 	ID        uint           `json:"id" gorm:"primaryKey;autoIncrement"`
-	Name      string         `json:"name" gorm:"not null;unique"`
+	Name      string         `json:"name" gorm:"not null;unique;index"`
 	Password  string         `json:"password" gorm:"not null"`
 	Signature string         `json:"signature"`
 	Avatar    string         `json:"avatar"`

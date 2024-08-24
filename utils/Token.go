@@ -4,6 +4,7 @@ import (
 	"Glyphrz-go/response"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"time"
 )
@@ -16,8 +17,9 @@ func CreateToken(c *gin.Context, ID uint, name string, role uint) string {
 		Name: name,
 		Role: role,
 		StandardClaims: jwt.StandardClaims{
+			Id:        uuid.NewString(),
 			NotBefore: time.Now().Unix(),
-			ExpiresAt: time.Now().Unix() + 60*60, // 1 hour
+			ExpiresAt: time.Now().Unix() + 60*5, // 5 min exp
 		},
 	}
 	// 生成token

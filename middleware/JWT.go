@@ -1,10 +1,10 @@
 package middleware
 
 import (
+	"Glyphrz-go/global"
 	"Glyphrz-go/response"
 	"Glyphrz-go/utils"
 	"errors"
-	"fmt"
 	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -39,8 +39,16 @@ func JWTAuth() gin.HandlerFunc {
 			context.Abort()
 			return
 		}
+		// 查询JWT是否在Redis黑名单中
+		color.Blue(claims.Id)
+		if jti, _ := global.Redis.Get(claims.Id).Result(); jti != "" {
+			color.Red(claims.Id)
+			response.Fail(context, http.StatusUnauthorized, 401, "token已失效", "")
+			context.Abort()
+			return
+		}
 		// 记录claims和userID，给下游使用
-		color.Blue(fmt.Sprint(context))
+		//color.Blue(fmt.Sprint(context))
 		context.Set("claims", claims)
 		context.Set("userID", claims.ID)
 		context.Next()

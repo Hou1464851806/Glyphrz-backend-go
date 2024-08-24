@@ -3,11 +3,15 @@ package controller
 import (
 	"Glyphrz-go/DAO"
 	"Glyphrz-go/forms"
+	"Glyphrz-go/global"
 	"Glyphrz-go/model"
 	"Glyphrz-go/response"
 	"Glyphrz-go/utils"
+	"fmt"
+	"github.com/fatih/color"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 // Login
@@ -77,6 +81,16 @@ func Register(c *gin.Context) {
 }
 
 func Logout(c *gin.Context) {
-	//注销token
+	// 获取负载
+	claims, _ := c.Get("claims")
+	user := claims.(*utils.Claims)
+	// 将jti存储在Redis中，并且过期时间和JWT一致
+	err := global.Redis.Set(user.Id, "1", time.Unix(user.ExpiresAt, 0).Sub(time.Now())).Err()
+	if err != nil {
+		response.Fail(c, http.StatusInternalServerError, 500, "黑名单添加失败", "")
+		return
+	}
+	color.Blue(fmt.Sprint(user.StandardClaims))
+	response.Success(c, 200, "用户已登出", "")
 	return
 }

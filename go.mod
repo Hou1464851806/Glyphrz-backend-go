@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-playground/validator/v10 v10.20.0
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/google/uuid v1.4.0
 	github.com/mojocn/base64Captcha v1.3.6
 	github.com/spf13/viper v1.19.0
 	go.uber.org/zap v1.21.0
